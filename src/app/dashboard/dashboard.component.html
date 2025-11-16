@@ -1,0 +1,22 @@
+<div class="max-w-2xl mx-auto mt-10 p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Dashboard</h1>
+        <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+            Logout
+        </button>
+    </div>
+
+
+    <div *ngIf="loading" class="text-gray-500">Loading messages…</div>
+
+
+    <ul *ngIf="!loading" class="space-y-4">
+        <li *ngFor="let m of messages" class="border p-4 rounded shadow-sm bg-white">
+            <p>{{ m.body }}</p>
+            <p class="text-xs text-gray-500 mt-2">{{ m.created_at }}</p>
+        </li>
+    </ul>
+
+
+    <p *ngIf="!loading && messages.length === 0" class="text-gray-400">No messages yet.</p>
+</div>

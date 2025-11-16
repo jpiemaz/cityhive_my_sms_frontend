@@ -1,0 +1,17 @@
+<div class="max-w-md mx-auto mt-20 p-6 bg-white rounded-xl shadow">
+    <h1 class="text-2xl font-bold mb-6">Sign In</h1>
+
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+        <input formControlName="email" placeholder="Email" class="border p-2 rounded" />
+        <input type="password" formControlName="password" placeholder="Password" class="border p-2 rounded" />
+
+
+        <button class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700" [disabled]="form.invalid">
+            Login
+        </button>
+
+
+        <p *ngIf="error" class="text-red-500 text-sm">{{ error }}</p>
+    </form>
+</div>
