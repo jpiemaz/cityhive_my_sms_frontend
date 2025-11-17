@@ -1,13 +1,10 @@
-<body class="bg-gray-100 justify-center items-center h-1vh">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">Dashboard</h1>
-    <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-      Logout
-    </button>
+<body class="bg-gray-100 justify-center items-center min-h-screen">
+  <div class="flex justify-center items-center pb-6 pt-2">
+    <h1 class="text-2xl font-extrabold">MY SMS MESSENGER</h1>
   </div>
   <div class="container justify-center mx-auto p-6 flex flex-col md:flex-row gap-6">
-    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-md">
-      <h2 class="text-2xl font-semibold mb-4">New Message</h2>
+    <div class="bg-white pt-6 px-14 rounded-lg shadow-md w-full md:w-md">
+      <h2 class="text-xl font-extrabold mb-6">New Message</h2>
 
       <label class="block text-gray-700 text-sm font-medium">Phone Number</label>
       <input
@@ -21,44 +18,55 @@
       <textarea
         id="message"
         [(ngModel)]="newMessage"
-        class="w-full p-2 border rounded mt-1"
+        class="w-full p-2 border rounded mt-1 min-h-30"
         maxlength="250"
       ></textarea>
 
-      <div class="flex justify-between text-sm mt-2">
-        <button id="clear" (click)="clearMessage()" class="text-gray-700 hover:text-blue-600 underline">Clear</button>
+      <div class="flex justify-end text-xs">
         <span id="charCount" class="text-gray-500">{{ newMessage.length }}/250</span>
       </div>
 
-      <button
-        id="submit"
-        (click)="sendMessage()"
-        class="px-7 bg-black text-sm text-gray-300 py-2 rounded-full mt-4 hover:bg-gray-800"
-      >
-        Submit
-      </button>
+      <div class="flex justify-between text-sm mt-2 pb-10">
+        <button id="clear" (click)="clearMessage()" class="text-gray-700 hover:text-blue-600 underline">Clear</button>
+
+        <button
+          id="submit"
+          (click)="sendMessage()"
+          class="px-7 bg-black text-sm text-gray-300 py-2 rounded-full mt-4 hover:bg-gray-800"
+        >
+          Submit
+        </button>
+      </div>
+
+      
     </div>
 
-    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-md">
-      <h2 class="text-2xl font-semibold mb-4">
+    <div class="bg-white pt-6 px-4 rounded-lg shadow-md w-full md:w-md">
+      <h2 class="text-xl font-extrabold mb-6 px-10">
         Message History <span id="msgCount">({{ messages.length }})</span>
       </h2>
 
-      <div id="messageHistory" class="h-72 overflow-y-auto">
+      <div id="messageHistory" class="h-72 overflow-y-scroll px-10">
+
         <div *ngIf="loading" class="text-gray-500">Loading messages…</div>
-
-        <li *ngFor="let m of messages">
-          <div class="flex justify-between items-center mb-2">
-            <span class="font-semibold text-gray-900">{{ m.phone_number }}</span>
-            <span class="text-gray-500 text-xs">{{ m.created_at }}</span>
-          </div>
-          <div class="p-3 rounded-lg border text-gray-700">
-            {{ m.text }}
-          </div>
-          <span class="text-gray-500 text-xs mt-2 block">{{ m.text.length }}/250</span>
-        </li>
-
         <p *ngIf="!loading && messages.length === 0" class="text-gray-400">No messages yet.</p>
+
+        <ul class="list-none">
+          <li *ngFor="let m of messages">
+            <div class="pb-6">
+              <div class="flex justify-between items-center mb-2">
+                <span class="font-extrabold text-gray-900 text-sm">{{ m.phone_number }}</span>
+                <span class="text-gray-500 text-xs">{{ m.created_at | date:'EEEE, dd-MMM-yyyy HH:mm:ss \'UTC\'' : 'UTC' }}</span>
+              </div>
+              <div class="p-3 rounded-lg border text-gray-700">
+                {{ m.text }}
+              </div>
+              <div class="flex justify-end">
+                <span class="text-gray-500 text-xs mt-1 block">{{ m.text.length }}/250</span>
+              </div>
+            </div>
+          </li>
+          </ul>
       </div>
     </div>
   </div>
