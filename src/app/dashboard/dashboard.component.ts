@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
   standalone: true,
   selector: 'app-dashboard',
   imports: [CommonModule, FormsModule],
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
   messages = [] as any[];
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadMessages() {
-    this.messagesSvc.getMessages().subscribe(msgs => {
+    this.messagesSvc.getMessages().subscribe((msgs) => {
       this.messages = msgs;
       this.loading = false;
     });
@@ -37,14 +37,21 @@ export class DashboardComponent implements OnInit {
   sendMessage() {
     if (!this.newMessage.trim() || !this.phoneNumber.trim()) return;
 
-    this.messagesSvc.createMessage({ text: this.newMessage, phone_number: this.phoneNumber }).subscribe({
-      next: (msg) => {
-        this.messages.unshift(msg);
-        this.newMessage = '';
-        this.phoneNumber = '';
-      },
-      error: (err) => console.error('Failed to send message', err)
-    });
+    this.messagesSvc
+      .createMessage({ text: this.newMessage, phone_number: this.phoneNumber })
+      .subscribe({
+        next: (msg) => {
+          this.messages.unshift(msg);
+          this.newMessage = '';
+          this.phoneNumber = '';
+        },
+        error: (err) => console.error('Failed to send message', err),
+      });
+  }
+
+  clearMessage() {
+    this.newMessage = '';
+    this.phoneNumber = '';
   }
 
   logout() {

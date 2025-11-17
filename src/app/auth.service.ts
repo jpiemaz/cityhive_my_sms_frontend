@@ -38,4 +38,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem(this.storageKey);
   }
+
+  signup(payload: any) {
+    return this.http.post(`${this.api}/auth`, payload);
+  }
 }

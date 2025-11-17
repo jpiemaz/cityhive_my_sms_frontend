@@ -1,31 +1,66 @@
-<div class="max-w-2xl mx-auto mt-10 p-6">
+<body class="bg-gray-100 justify-center items-center h-1vh">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold">Dashboard</h1>
     <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
       Logout
     </button>
   </div>
+  <div class="container justify-center mx-auto p-6 flex flex-col md:flex-row gap-6">
+    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-md">
+      <h2 class="text-2xl font-semibold mb-4">New Message</h2>
 
-  <!-- New message form -->
-  <div class="mb-6 flex flex-col gap-2">
-    <input type="text" [(ngModel)]="phoneNumber" placeholder="Phone Number" 
-      class="w-full border p-2 rounded" />
-    <textarea [(ngModel)]="newMessage" rows="3" placeholder="Write a new message..."
-      class="w-full border p-2 rounded"></textarea>
-    <button (click)="sendMessage()"
-      class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-      Send
-    </button>
+      <label class="block text-gray-700 text-sm font-medium">Phone Number</label>
+      <input
+        type="text"
+        [(ngModel)]="phoneNumber"
+        id="phone"
+        class="w-full p-2 border rounded mt-1"
+      />
+
+      <label class="block text-gray-700 text-sm font-medium mt-4">Message</label>
+      <textarea
+        id="message"
+        [(ngModel)]="newMessage"
+        class="w-full p-2 border rounded mt-1"
+        maxlength="250"
+      ></textarea>
+
+      <div class="flex justify-between text-sm mt-2">
+        <button id="clear" (click)="clearMessage()" class="text-gray-700 hover:text-blue-600 underline">Clear</button>
+        <span id="charCount" class="text-gray-500">{{ newMessage.length }}/250</span>
+      </div>
+
+      <button
+        id="submit"
+        (click)="sendMessage()"
+        class="px-7 bg-black text-sm text-gray-300 py-2 rounded-full mt-4 hover:bg-gray-800"
+      >
+        Submit
+      </button>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-md">
+      <h2 class="text-2xl font-semibold mb-4">
+        Message History <span id="msgCount">({{ messages.length }})</span>
+      </h2>
+
+      <div id="messageHistory" class="h-72 overflow-y-auto">
+        <div *ngIf="loading" class="text-gray-500">Loading messages…</div>
+
+        <li *ngFor="let m of messages">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-semibold text-gray-900">{{ m.phone_number }}</span>
+            <span class="text-gray-500 text-xs">{{ m.created_at }}</span>
+          </div>
+          <div class="p-3 rounded-lg border text-gray-700">
+            {{ m.text }}
+          </div>
+          <span class="text-gray-500 text-xs mt-2 block">{{ m.text.length }}/250</span>
+        </li>
+
+        <p *ngIf="!loading && messages.length === 0" class="text-gray-400">No messages yet.</p>
+      </div>
+    </div>
   </div>
-
-  <!-- Messages list -->
-  <div *ngIf="loading" class="text-gray-500">Loading messages…</div>
-  <ul *ngIf="!loading" class="space-y-4">
-    <li *ngFor="let m of messages" class="border p-4 rounded shadow-sm bg-white">
-      <p>{{ m.body }}</p>
-      <p class="text-xs text-gray-500 mt-2">To: {{ m.phone_number }}</p>
-      <p class="text-xs text-gray-500">{{ m.created_at }}</p>
-    </li>
-  </ul>
-  <p *ngIf="!loading && messages.length === 0" class="text-gray-400">No messages yet.</p>
-</div>
+  <button (click)="logout()" id="logout" class="p-6 text-blue-600 hover:underline">Logout</button>
+</body>
